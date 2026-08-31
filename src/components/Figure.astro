@@ -1,16 +1,24 @@
 ---
 interface Props {
-  caption: string;
+  caption?: string;
+  fullWidth?: boolean;
 }
 
-const { caption } = Astro.props;
+const { caption, fullWidth = false } = Astro.props;
 ---
 
 <figure class="w-full flex flex-col gap-2 items-center">
-  <div class="*:max-h-[35rem] *:object-contain flex justify-center w-full">
+  <div
+    class:list={[
+      "flex justify-center w-full",
+      { "*:max-h-[35rem] *:object-contain": !fullWidth },
+    ]}
+  >
     <slot />
   </div>
-  <figcaption class="text-center text-zinc-700">
-    {caption}
-  </figcaption>
+  {caption && (
+    <figcaption class="text-center text-zinc-700">
+      {caption}
+    </figcaption>
+  )}
 </figure>

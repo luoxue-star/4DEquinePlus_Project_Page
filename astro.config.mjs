@@ -8,7 +8,7 @@ import react from "@astrojs/react";
 // https://astro.build/config
 export default defineConfig({
   site: 'https://luoxue-star.github.io',
-  base: '/4DEquine_Project_Page',
+  base: '/4DEquinePlus_Project_Page',
   integrations: [tailwind(), icon(), mdx(), react()],
   markdown: {
     shikiConfig: {

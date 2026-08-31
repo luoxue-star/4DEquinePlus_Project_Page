@@ -6,13 +6,17 @@ interface Props {
   altText: string;
   width?: number;
   height?: number;
+  fullWidth?: boolean;
 }
 
-const { source, altText, width, height } = Astro.props;
+const { source, altText, width, height, fullWidth = false } = Astro.props;
 ---
 
 <AstroImage
-  class="rounded-lg max-h-[35rem] w-max object-contain !px-0"
+  class:list={[
+    "rounded-lg object-contain !px-0",
+    fullWidth ? "w-full h-auto max-w-none" : "max-h-[35rem] w-max",
+  ]}
   src={source}
   alt={altText}
   width={width}

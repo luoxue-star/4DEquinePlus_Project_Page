@@ -1,6 +1,6 @@
 ---
 layout: ../layouts/Layout.astro
-title: "4DEquine: Disentangling Motion and Appearance for 4D Equine Reconstruction from Monocular Video"
+title: "4DEquine+: Disentangling Motion and Appearance for Diverse and Efficient 4D Equine Reconstruction"
 favicon: favicon.svg
 thumbnail: screenshot.png
 ---
@@ -18,7 +18,7 @@ import YouTubeVideo from "../components/YouTubeVideo.astro";
 import LaTeX from "../components/LaTeX.astro";
 import VideoCarousel from "../components/VideoCarousel";
 
-import pipeline from "../assets/4dequine_pipeline.svg";
+import pipeline from "../assets/pipeline.png";
 
 import SupplementaryVideo from "../assets/SupplementaryVideo.mp4"
 
@@ -32,7 +32,7 @@ export const components = {pre: CodeBlock, table: Table}
     {
       name: "Jin Lyu",
       notes: ["1"],
-      "url": "https://luoxue-star.github.io/4DEquine_Project_Page/",
+      "url": "https://luoxue-star.github.io/4DEquinePlus_Project_Page/",
     },
     {
       name: "Liang An",
@@ -42,7 +42,7 @@ export const components = {pre: CodeBlock, table: Table}
     {
       name: "Pujin Cheng",
       notes: ["1"],
-      "url": "https://luoxue-star.github.io/4DEquine_Project_Page/",
+      "url": "https://luoxue-star.github.io/4DEquinePlus_Project_Page/",
     },
     {
       name: "Yebin Liu",
@@ -52,7 +52,7 @@ export const components = {pre: CodeBlock, table: Table}
     {
       name: "Xiaoying Tang",
       notes: ["†", "1"],
-      "url": "https://luoxue-star.github.io/4DEquine_Project_Page/",
+      "url": "https://luoxue-star.github.io/4DEquinePlus_Project_Page/",
     },
   ]}
   institutions={[
@@ -97,40 +97,22 @@ export const components = {pre: CodeBlock, table: Table}
 </HighlightedSection>
 
 <HighlightedSection color="#ffffff">
-  <h2>Abstact</h2>
-  <p style="font-family: 'Times New Roman', Times, serif; font-size: 1.2rem; line-height: 1.3;">4D reconstruction of equine family (e.g. horses) from monocular video is important for animal welfare. 
-  Previous mainstream 4D animal reconstruction methods require joint optimization of motion and appearance over a whole video, 
-  which is time-consuming and sensitive to incomplete observation. 
-  In this work, we propose a novel framework called 4DEquine by disentangling the 4D reconstruction problem into two sub-problems: 
-  dynamic motion reconstruction and static appearance reconstruction. 
-  For motion, we introduce a simple yet effective spatio-temporal transformer with a post-optimization stage to regress smooth and pixel-aligned pose and shape sequences from video. 
-  For appearance, we design a novel feed-forward network that reconstructs a high-fidelity, animatable 3D Gaussian avatar from as few as a single image. 
-  To assist training, we create a large-scale synthetic motion dataset, VarenPoser, 
-  which features high-quality surface motions and diverse camera trajectories, as well as a synthetic appearance dataset, 
-  VarenTex, comprising realistic multi-view images generated through multi-view diffusion. While training only on synthetic datasets, 
-  4DEquine achieves state-of-the-art performance on real-world APT36K and AiM datasets, 
-  demonstrating the superiority of 4DEquine and our new datasets for both geometry and appearance reconstruction. 
-  Comprehensive ablation studies validate the effectiveness of both the motion and appearance reconstruction network. </p>
+  <h2>Abstract</h2>
+  <p style="font-family: 'Times New Roman', Times, serif; font-size: 1.2rem; line-height: 1.3;">4D reconstruction of equines from monocular videos is important for quantitative behavior analysis and the creation of realistic digital avatars. However, existing methods often jointly optimize motion and appearance over an entire video, making reconstruction computationally expensive and dependent on sufficient viewpoint coverage. To address these limitations, we introduce 4DEquine+, an extended version of our 4DEquine framework. 4DEquine+ disentangles the problem into dynamic motion recovery and static appearance reconstruction. Specifically, AniMoFormer combines a spatio-temporal transformer with a post-optimization stage to estimate smooth, image-aligned pose and shape sequences, while EquineGS reconstructs a high-fidelity, animatable 3D Gaussian avatar in a feed-forward manner. To enable effective training without real 4D annotations, we construct three complementary synthetic datasets: VarenPoser provides annotated motion sequences, VarenTex supplies appearance-consistent multi-view images, and the newly introduced VarenWan contains generative 180° turn-around videos with diverse identities of horse, zebra and donkey, featuring realistic manes and tails. Compared with 4DEquine, EquineGS in 4DEquine+ conditions on multiple frames sampled from the whole video, exploiting complementary observations to improve reconstruction under occlusion and truncation. We further introduce Subject-Centric Token Pruning (SCTP), which discards redundant background tokens to reduce the additional aggregation cost of multi-image conditioning. Trained entirely on synthetic data, 4DEquine+ achieves state-of-the-art motion recovery performance on APT36K and AiM datasets, and yields the best appearance reconstruction results on AiM-Horse, AiM-Zebra, and our in-the-wild EquineVideo benchmark. With four conditioning images, 4DEquine+ reduces LPIPS over 4DEquine by 20.3%–27.2%. SCTP provides speedups of 1.16× and 1.39× for four and sixteen conditioning images, respectively, with negligible degradation in reconstruction quality.</p>
 </HighlightedSection>
 
 <HighlightedSection color="#ffffff">
-  <h2>4DEquine</h2>
-  <p style="font-family: 'Times New Roman', Times, serif; font-size: 1.2rem; line-height: 1.3;"> The 4DEquine framework processes inputs through two disentangled branches to achieve its final 4D reconstruction. 
-  In the motion recovery branch (AniMoFormer), an input video is processed frame-by-frame through a spatial transformer to extract features, which are then passed into a temporal transformer to model local motion context. 
-  These features feed into a VAREN transformer decoder and undergo a post-optimization step to output an accurate, temporally smooth sequence of VAREN shape and pose parameters. 
-  Concurrently, in the appearance reconstruction branch (EquineGS), the network takes a single input image alongside a canonical up-sampled point cloud initialized from the VAREN template mesh. 
-  These inputs are processed through a dual-stream architecture—utilizing DINOv3 to extract multi-scale image features and positional encoders for point features—which are then fused within multiple Dual-Stream Transformer Gaussian (DSTG) blocks and passed through an MLP to predict the attributes of a canonical 3D Gaussian avatar. 
-  Finally, these generated Gaussian points are animated into per-frame poses using Linear Blend Skinning (LBS) driven by AniMoFormer's motion parameters, yielding the final complete 4D reconstruction output.
-  For more details, please refer our paper.</p>
-  <Figure>
-      <Image source={pipeline} altText="" />
+  <h2>4DEquine+</h2>
+  <p style="font-family: 'Times New Roman', Times, serif; font-size: 1.2rem; line-height: 1.3;">The 4DEquine+ framework retains two disentangled branches for dynamic motion recovery and static appearance reconstruction. In AniMoFormer, a Spatial Transformer extracts per-frame features, while a Temporal Transformer models motion across each video window. A VAREN Transformer Decoder predicts pose, shape, and camera parameters, followed by Post-Optimization using 2D keypoints and silhouettes to produce accurate, temporally smooth, image-aligned posed meshes; sliding-window inference supports videos of arbitrary length. In EquineGS, one or more frames uniformly sampled from the same monocular video are independently encoded by a shared DINOv3 backbone. Subject-Centric Token Pruning (SCTP) retains foreground and boundary tokens while discarding redundant background tokens. Five Dual-Stream Transformer Gaussian (DSTG) blocks then fuse the pruned image features with point features from canonical upsampled VAREN vertices to predict a canonical 3D Gaussian avatar. Finally, VAREN-driven Linear Blend Skinning (LBS) animates the avatar with the recovered motion to produce the complete 4D reconstruction. Both branches are trained entirely on synthetic data: AniMoFormer uses VarenPoser, while EquineGS uses VarenTex and VarenWan. For more details, please refer to our paper.</p>
+  <Figure fullWidth>
+      <Image source={pipeline} altText="Overview of the 4DEquine+ framework" fullWidth />
   </Figure>
 </HighlightedSection>
 
 ## BibTeX citation
 ```bibtex
 @misc{lyu20264dequinedisentanglingmotionappearance,
-      title={4DEquine: Disentangling Motion and Appearance for 4D Equine Reconstruction from Monocular Video}, 
+      title={4DEquine+: Disentangling Motion and Appearance for Diverse and Efficient 4D Equine Reconstruction}, 
       author={Jin Lyu and Liang An and Pujin Cheng and Yebin Liu and Xiaoying Tang},
       year={2026},
       eprint={2603.10125},
